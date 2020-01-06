@@ -37,50 +37,52 @@
                 <div :class="{'vue-table-loading': this.loading , 'vue-table-loading-hidden': !this.loading}">
                     <div class="spinner"></div>
                 </div>
-                <table class="table table-bordered table-hover table-condensed table-striped vue-table">
-                    <thead>
-                    <tr>
-                        <th v-if="selectable" style="width:40px;">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" :id="'checkAll'+instanceId" aria-label="Select All" v-model="allSelected">
-                                <label class="custom-control-label" :for="'checkAll'+instanceId"></label>
-                            </div>
-                            <!--<div class="form-check">
-                                <input class="form-check-input position-static" type="checkbox" aria-label="Select All" v-model="allSelected">
-                            </div>-->
-                        </th>
-                        <th v-for="column in displayColsVisible" @click="sortBy($event, column.name, column.sortable)"
-                            track-by="column"
-                            class="icon"
-                            :class="getClasses(column)">
-                            {{ column.title }}
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(entry, index) in filteredValuesSorted " track-by="entry" @click="rowClickHandler($event, entry)">
-                        <td v-if="selectable">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" :id="'check'+instanceId+index" v-model="entry.selected">
-                                <label class="custom-control-label" :for="'check'+instanceId+index"></label>
-                            </div>
-                            <!--<div class="form-check">
-                                <input class="form-check-input position-static" type="checkbox" aria-label="Select All" v-model="entry.selected">
-                            </div>-->
-                        </td>
-                        <td v-for="column in displayColsVisible" track-by="column"
-                            v-show="column.visible" :class="column.cellstyle">
-                            <slot :name="column.name" :column="column" :value="entry">
-                                <span v-if="column.renderfunction!==false" v-html="column.renderfunction( column.name, entry )"></span>
-                                <span v-else-if="!column.editable">{{ entry[column.name] }}</span>
-                                <value-field-section v-else
-                                                     :entry="entry"
-                                                     :columnname="column.name"></value-field-section>
-                            </slot>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-padded">
+                        <thead>
+                        <tr>
+                            <th v-if="selectable" style="width:40px;">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" :id="'checkAll'+instanceId" aria-label="Select All" v-model="allSelected">
+                                    <label class="custom-control-label" :for="'checkAll'+instanceId"></label>
+                                </div>
+                                <!--<div class="form-check">
+                                    <input class="form-check-input position-static" type="checkbox" aria-label="Select All" v-model="allSelected">
+                                </div>-->
+                            </th>
+                            <th v-for="column in displayColsVisible" @click="sortBy($event, column.name, column.sortable)"
+                                track-by="column"
+                                class="icon"
+                                :class="getClasses(column)">
+                                {{ column.title }}
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(entry, index) in filteredValuesSorted " track-by="entry" @click="rowClickHandler($event, entry)">
+                            <td v-if="selectable">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" :id="'check'+instanceId+index" v-model="entry.selected">
+                                    <label class="custom-control-label" :for="'check'+instanceId+index"></label>
+                                </div>
+                                <!--<div class="form-check">
+                                    <input class="form-check-input position-static" type="checkbox" aria-label="Select All" v-model="entry.selected">
+                                </div>-->
+                            </td>
+                            <td v-for="column in displayColsVisible" track-by="column"
+                                v-show="column.visible" :class="column.cellstyle">
+                                <slot :name="column.name" :column="column" :value="entry">
+                                    <span v-if="column.renderfunction!==false" v-html="column.renderfunction( column.name, entry )"></span>
+                                    <span v-else-if="!column.editable">{{ entry[column.name] }}</span>
+                                    <value-field-section v-else
+                                                         :entry="entry"
+                                                         :columnname="column.name"></value-field-section>
+                                </slot>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                  </div>
             </div>
             <div v-if="paginated" class="col-sm-12">
                 <div class="btn-toolbar" role="toolbar" aria-label="pagination bar">
